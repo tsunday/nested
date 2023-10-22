@@ -13,9 +13,12 @@ describe('AppController', () => {
   });
 
   describe('getHello', () => {
-    it('should return "Hello World!"', () => {
+    it('should return "Mocked Hello World!"', () => {
       const appController = app.get(AppController);
-      expect(appController.getHello()).toBe('Hello World!');
+      jest
+        .spyOn(app.get(AppService), 'getHello')
+        .mockReturnValue('Mocked Hello World!');
+      expect(appController.getHello()).toBe('Mocked Hello World!');
     });
   });
 });

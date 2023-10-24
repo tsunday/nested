@@ -9,13 +9,12 @@ describe('AppController', () => {
   beforeAll(async () => {
     app = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService],
     })
       .useMocker((token) => {
-        console.log(typeof token);
-        if (token === AppService) {
+        console.log('useMocker called');
+        if (token === AppServihce) {
           return {
-            getHello: mockedHello,
+            getHello: () => mockedHello,
           };
         }
       })

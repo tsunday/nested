@@ -4,21 +4,28 @@ import { AppService } from './app.service';
 
 describe('AppController', () => {
   let app: TestingModule;
+  const mockedHello = 'Mocked Hello World!';
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
       controllers: [AppController],
       providers: [AppService],
-    }).compile();
+    })
+      .useMocker((token) => {
+        console.log(typeof token);
+        if (token === AppService) {
+          return {
+            getHello: mockedHello,
+          };
+        }
+      })
+      .compile();
   });
 
   describe('getHello', () => {
     it('should return "Mocked Hello World!"', () => {
       const appController = app.get(AppController);
-      jest
-        .spyOn(app.get(AppService), 'getHello')
-        .mockReturnValue('Mocked Hello World!');
-      expect(appController.getHello()).toBe('Mocked Hello World!');
+      expect(appController.getHello()).toBe(mockedHello);
     });
   });
 });

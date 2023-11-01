@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppPort } from './app.port';
 
 describe('AppController', () => {
   let app: TestingModule;
@@ -11,8 +11,7 @@ describe('AppController', () => {
       controllers: [AppController],
     })
       .useMocker((token) => {
-        console.log('useMocker called');
-        if (token === AppServihce) {
+        if (token === AppPort) {
           return {
             getHello: () => mockedHello,
           };
